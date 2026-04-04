@@ -1,0 +1,177 @@
+.clients-container {
+  padding: 24px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+  }
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .search-field-select {
+    width: 200px;
+  }
+
+  .search-field-input {
+    flex: 1;
+  }
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  table {
+    width: 100%;
+
+    .mat-row {
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+
+      &.selected {
+        background-color: rgba(63, 81, 181, 0.08);
+      }
+    }
+
+    .mat-cell {
+      padding: 12px 8px;
+    }
+  }
+
+  mat-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+}
+
+.cell-content {
+  .sub-text {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+  }
+}
+
+.barcode {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.custom-tooltip {
+  background-color: #333;
+  color: white;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  max-width: 300px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.bonus {
+  font-weight: 600;
+  color: #4caf50;
+  font-size: 16px;
+
+  .bonus-unit {
+    font-size: 12px;
+    font-weight: normal;
+    color: #666;
+  }
+}
+
+.phone {
+  font-family: monospace;
+}
+
+.loyalty-level {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .loyalty-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &.loyalty-gold {
+    color: #ffd700;
+  }
+
+  &.loyalty-silver {
+    color: #c0c0c0;
+  }
+
+  &.loyalty-bronze {
+    color: #cd7f32;
+  }
+}
+
+.os-info {
+  display: flex;
+  align-items: center;
+
+  .os-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+
+    &.ios {
+      color: #000;
+    }
+
+    &.android {
+      color: #3ddc84;
+    }
+  }
+}
+
+mat-icon {
+  &.connected {
+    color: #4caf50;
+  }
+
+  &.disconnected {
+    color: #f44336;
+  }
+}

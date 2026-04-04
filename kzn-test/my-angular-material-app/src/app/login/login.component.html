@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="login-section">
+    <div class="login-wrapper">
+      <h2 class="text-center fs-30 lh-0">Добро пожаловать в Тейка</h2>
+      <h2 class="text-center grey fs-30">Начните сегодня</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput type="tel" placeholder="Номер телефона / Адрес эл. почты" formControlName="login">
+          <mat-error *ngIf="loginForm.get('login')?.hasError('required') && loginForm.get('login')?.touched">
+            Поле обязательно для заполнения
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput type="password" placeholder="Введите пароль" formControlName="password">
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+            Поле обязательно для заполнения
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button class="full-width black-button" type="submit">
+          Войти
+        </button>
+      </form>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">ИЛИ</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="register-link text-center">
+        <span>Уже есть аккаунт?</span>
+        <a href="#" class="register-link-btn"> Зарегистрироваться</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="info-section">
+    <div class="info-top">
+      <h2 class="black fs-30"><span class="fw-500">Программа</span> <br>
+        <span class="black fs-30">лояльности</span>
+      </h2>
+    </div>
+
+    <div class="info-bottom">
+      <ul class="features-list">
+        <li>1. Регистрация и бонусы</li>
+        <li>2. Кэшбек до 10%</li>
+        <li>3. Персональные скидки</li>
+        <li>4. Привилегии для постоянных</li>
+      </ul>
+    </div>
+  </div>
+</div>
