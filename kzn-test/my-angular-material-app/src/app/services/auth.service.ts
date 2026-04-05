@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   private readonly TOKEN_KEY = 'auth_token';
   private isAuthenticatedSignal = signal<boolean>(false);
@@ -44,4 +45,5 @@ export class AuthService {
   isAuthenticated(): boolean {
     return this.isAuthenticatedSignal();
   }
+
 }

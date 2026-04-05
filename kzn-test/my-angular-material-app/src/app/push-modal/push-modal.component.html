@@ -1,0 +1,46 @@
+<h2 mat-dialog-title class="dialog-title">Новая Push-рассылка</h2>
+
+<div mat-dialog-content class="dialog-content">
+  <form [formGroup]="pushForm" class="push-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Текст сообщения</mat-label>
+      <textarea matInput formControlName="message" rows="4" placeholder="Введите текст PUSH-сообщения"
+        (input)="updatePreview()"></textarea>
+      <mat-error *ngIf="pushForm.get('message')?.hasError('required') && pushForm.get('message')?.touched">
+        Текст сообщения обязателен
+      </mat-error>
+    </mat-form-field>
+
+    <div class="preview-section">
+      <div class="preview-label">Превью:</div>
+      <div class="push-preview">
+        <div class="preview-header">
+          <div class="app-icon">
+            <mat-icon>notifications</mat-icon>
+          </div>
+          <div class="app-name">Имя отправителя</div>
+        </div>
+        <div class="preview-content">
+          <div class="preview-message">{{ previewMessage || 'Текст сообщения' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width date-field">
+      <mat-label>Дата отправки рассылки</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="scheduledDate" [min]="minDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="pushForm.get('scheduledDate')?.hasError('required') && pushForm.get('scheduledDate')?.touched">
+        Выберите дату отправки
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button class="cancel-btn" (click)="onCancel()">Отмена</button>
+  <button mat-raised-button class="send-btn" (click)="onSubmit()" [disabled]="pushForm.invalid || isSending">
+    {{ isSending ? 'Отправка...' : 'Отправить' }}
+  </button>
+</div>

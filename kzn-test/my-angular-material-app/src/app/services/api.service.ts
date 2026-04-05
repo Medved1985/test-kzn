@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Единое определение интерфейса Client
 export interface Client {
   user_id: number;
   template: string;
@@ -77,10 +76,27 @@ export interface ApiResponse<T> {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
   private readonly API_URL = 'https://api.teyca.ru';
 
   constructor(private http: HttpClient) { }
+
+  getClientById(userId: string): Observable<ApiResponse<Client>> {
+    const token = localStorage.getItem('auth_token');
+
+    if (!token) {
+      throw new Error('Токен авторизации не найден');
+    }
+
+    const url = `${this.API_URL}/v1/${token}/passes/userid/${userId}`;
+
+    return this.http.get<ApiResponse<Client>>(url, {
+      headers: {
+        'Authorization': `${token}`
+      }
+    });
+  }
 
   getClients(params: {
     page: number;
@@ -125,22 +141,32 @@ export class ApiService {
   }
 
   sendPush(data: {
-    clientIds: string[];
-    message: string;
-    scheduledDate?: Date;
+    user_id: string;
+    push_message: string;
+    date_start?: string
   }): Observable<any> {
     const token = localStorage.getItem('auth_token');
 
-    const payload = {
-      clientIds: data.clientIds,
-      message: data.message,
-      scheduledDate: data.scheduledDate ? data.scheduledDate.toISOString() : null
+    if (!token) {
+      throw new Error('Токен авторизации не найден');
+    }
+
+    const url = `${this.API_URL}/v1/${token}/message/push`;
+
+    const body: any = {
+      user_id: data.user_id,
+      push_message: data.push_message
     };
 
-    return this.http.post(`${this.API_URL}/push/send`, payload, {
+    if (data.date_start) {
+      body.date_start = data.date_start;
+    }
+
+    return this.http.post(url, body, {
       headers: {
         'Authorization': `${token}`
       }
     });
   }
+
 }

@@ -2,29 +2,27 @@
   <div class="header">
     <h1>Таблица клиентов</h1>
     <p>В этом разделе у вас есть возможность отправлять рассылки, а также редактировать информацию о ваших клиентах.</p>
+
+  </div>
+
+  <div class="filters">
+
+    <mat-form-field appearance="outline" class="search-field-input">
+      <mat-label>Поиск</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Введите ID для поиска">
+
+      <mat-select matSuffix [(value)]="searchField" style="width: 60px;">
+        <mat-option value="id">ID</mat-option>
+      </mat-select>
+
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
     <button mat-raised-button color="primary" [disabled]="!hasSelected() || pushService.isLoading()"
       (click)="openPushModal()">
       Отправить PUSH ({{ selectedCount() }})
     </button>
-  </div>
 
-  <div class="filters">
-    <mat-form-field appearance="outline" class="search-field-select">
-      <mat-label>Поле для поиска</mat-label>
-      <mat-select [value]="searchField()" (selectionChange)="onSearchFieldChange($event.value)">
-        @for (field of searchFields; track field.value) {
-        <mat-option [value]="field.value">
-          {{ field.label }}
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="search-field-input">
-      <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchControl" placeholder="Введите текст для поиска">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
   </div>
 
   <div class="table-container">
@@ -32,7 +30,6 @@
 
     <table mat-table [dataSource]="clients()" matSort (matSortChange)="onSortChange($event)" class="mat-elevation-z2">
 
-      <!-- Checkbox column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox [checked]="isAllSelected()" [indeterminate]="selectedCount() > 0 && !isAllSelected()"
@@ -46,13 +43,11 @@
         </td>
       </ng-container>
 
-      <!-- ID column -->
       <ng-container matColumnDef="user_id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
         <td mat-cell *matCellDef="let client">{{ client.user_id }}</td>
       </ng-container>
 
-      <!-- Telegram column -->
       <ng-container matColumnDef="telegram">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let client">
@@ -62,7 +57,6 @@
         </td>
       </ng-container>
 
-      <!-- ОС column -->
       <ng-container matColumnDef="o_s">
         <th mat-header-cell *matHeaderCellDef>Устройство</th>
         <td mat-cell *matCellDef="let client">
@@ -74,7 +68,6 @@
         </td>
       </ng-container>
 
-      <!-- Maket column -->
       <ng-container matColumnDef="maket">
         <th mat-header-cell *matHeaderCellDef>Макет карты</th>
         <td mat-cell *matCellDef="let client">
@@ -84,7 +77,6 @@
         </td>
       </ng-container>
 
-      <!-- Фамилия column -->
       <ng-container matColumnDef="fio">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Фамилия владельца</th>
         <td mat-cell *matCellDef="let client">
@@ -94,7 +86,6 @@
         </td>
       </ng-container>
 
-      <!-- Имя column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Имя владельца</th>
         <td mat-cell *matCellDef="let client">
@@ -104,7 +95,6 @@
         </td>
       </ng-container>
 
-      <!-- Телефон column -->
       <ng-container matColumnDef="phone">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Номер телефона</th>
         <td mat-cell *matCellDef="let client">
@@ -114,7 +104,6 @@
         </td>
       </ng-container>
 
-      <!-- Скидка column -->
       <ng-container matColumnDef="barcode">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Скидка</th>
         <td mat-cell *matCellDef="let client">
@@ -122,7 +111,6 @@
         </td>
       </ng-container>
 
-      <!-- Бонусы column -->
       <ng-container matColumnDef="bonus">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Бонусы</th>
         <td mat-cell *matCellDef="let client">
@@ -130,7 +118,6 @@
         </td>
       </ng-container>
 
-      <!-- summ_all column -->
       <ng-container matColumnDef="summ">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Средний чек</th>
         <td mat-cell *matCellDef="let client">
@@ -140,7 +127,6 @@
         </td>
       </ng-container>
 
-      <!-- summ_all column -->
       <ng-container matColumnDef="loyalty_level">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Сумма покупок</th>
         <td mat-cell *matCellDef="let client">
@@ -150,7 +136,6 @@
         </td>
       </ng-container>
 
-      <!-- link column -->
       <ng-container matColumnDef="link">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Ссылка на карту</th>
         <td mat-cell *matCellDef="let client">
@@ -159,7 +144,6 @@
         </td>
       </ng-container>
 
-      <!-- Дата создания column -->
       <ng-container matColumnDef="created_at">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата создания</th>
         <td mat-cell *matCellDef="let client">{{ formatDate(client.created_at) }}</td>

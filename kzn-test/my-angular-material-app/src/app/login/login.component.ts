@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-login',
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -49,4 +49,5 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
     }
   }
+
 }

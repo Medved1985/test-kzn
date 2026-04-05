@@ -1,8 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
 import { Observable } from 'rxjs';
-import { PushModalComponent } from '../push-modal/push-modal';
+import { PushModalComponent } from '../push-modal/push-modal.component';
 
 export interface PushData {
   clientIds: string[];
@@ -13,16 +12,19 @@ export interface PushData {
 @Injectable({
   providedIn: 'root'
 })
+
 export class PushService {
   private isLoadingSignal = signal(false);
 
   constructor(private dialog: MatDialog) { }
 
-  openPushModal(clients: { id: string; name: string }[]): Observable<PushData | null> {
+  openPushModal(clients: { id: string; name: string }[]): Observable<any> {
     const dialogRef = this.dialog.open(PushModalComponent, {
-      width: '500px',
+      width: '655px',
+      height: '800px',
       data: { clients },
-      disableClose: true
+      disableClose: true,
+      panelClass: 'push-modal-panel'
     });
 
     return dialogRef.afterClosed();
@@ -35,4 +37,5 @@ export class PushService {
   isLoading(): boolean {
     return this.isLoadingSignal();
   }
+
 }
