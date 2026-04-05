@@ -1,4 +1,33 @@
 <div class="clients-container">
+  <div class="avatar">
+
+    <div class="avatar-div-2">
+      <mat-icon class="tg">circle</mat-icon>
+      <div class="avatar-name">
+        <span class="name">Имя</span>
+        <span class="admin">Администратор</span>
+      </div>
+    </div>
+
+    <div class="avatar-div-1">
+      <mat-icon class="tg">book</mat-icon>
+      <span>База знаний</span>
+    </div>
+
+  </div>
+
+  <div class="tabs">
+
+    <div class="tab-1">
+      Общие настройки
+    </div>
+
+    <div class="tab-2">
+      Таблица клиентов
+    </div>
+
+  </div>
+
   <div class="header">
     <h1>Таблица клиентов</h1>
     <p>В этом разделе у вас есть возможность отправлять рассылки, а также редактировать информацию о ваших клиентах.</p>
@@ -7,20 +36,15 @@
 
   <div class="filters">
 
-    <mat-form-field appearance="outline" class="search-field-input">
+    <mat-form-field appearance="fill" class="search-field-input">
       <mat-label>Поиск</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Введите ID для поиска">
-
-      <mat-select matSuffix [(value)]="searchField" style="width: 60px;">
-        <mat-option value="id">ID</mat-option>
-      </mat-select>
-
-      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" [disabled]="!hasSelected() || pushService.isLoading()"
+    <button mat-raised-button color="primary" class="push" [disabled]="!hasSelected() || pushService.isLoading()"
       (click)="openPushModal()">
-      Отправить PUSH ({{ selectedCount() }})
+      Отправить Push
+      <mat-icon class="tg">telegram</mat-icon>
     </button>
 
   </div>
