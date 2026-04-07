@@ -10,6 +10,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
+export interface PushData {
+  user_id?: string;
+  date_start?: string;
+  push_message?: string
+}
 
 @Component({
   selector: 'app-push-modal',
@@ -20,9 +28,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatCheckboxModule,
     CommonModule,
     MatFormFieldModule,
+    MatOptionModule,
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatSelectModule,
+    MatFormFieldModule,
     MatIconModule],
 })
 
@@ -51,6 +62,24 @@ export class PushModalComponent {
     this.previewMessage = this.pushForm.get('message')?.value || '';
   }
 
+  getTodayDate(): Date {
+    const now = new Date();
+    now.setSeconds(0, 0);
+    return now;
+  }
+
+  getTodayTime(): string {
+    const now = new Date();
+    return now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  getDateInHours(hours: number): Date {
+    const date = new Date();
+    date.setHours(date.getHours() + hours);
+    date.setSeconds(0, 0);
+    return date;
+  }
+
   onSubmit(): void {
     if (this.isSubmitting || this.pushForm.invalid) {
       if (this.pushForm.invalid) {
@@ -75,7 +104,10 @@ export class PushModalComponent {
     const total = clientIds.length;
 
     if (total === 0) {
-      this.snackBar.open('Нет клиентов для отправки', 'Закрыть', { duration: 3000 });
+      this.snackBar.open('Нет клиентов для отправки', 'Закрыть', {
+        duration: 7000,
+        panelClass: ['error-snackbar']
+      });
       this.isSending = false;
       this.isSubmitting = false;
       this.cdr.detectChanges();
@@ -84,7 +116,7 @@ export class PushModalComponent {
     }
 
     clientIds.forEach((userId) => {
-      const pushData: any = {
+      const pushData: PushData = {
         user_id: userId,
         push_message: message
       };
@@ -95,7 +127,7 @@ export class PushModalComponent {
 
       this.apiService.sendPush(pushData).subscribe({
         next: (res) => {
-          console.log(res);
+          console.log('Ответ', res);
 
           successCount++;
           this.checkCompletion(successCount, errorCount, total, scheduledDate);
@@ -122,14 +154,20 @@ export class PushModalComponent {
               ? `PUSH-рассылка запланирована на ${new Date(scheduledDate).toLocaleString()} для ${total} пользователей`
               : `PUSH-рассылка отправлена ${total} пользователям`,
             'Закрыть',
-            { duration: 3000 }
+            {
+              duration: 7000,
+              panelClass: ['success-snackbar']
+            }
           );
           this.dialogRef.close({ success: true });
         } else {
           this.snackBar.open(
             `Отправлено: ${successCount}/${total}. Ошибок: ${errorCount}`,
             'Закрыть',
-            { duration: 5000 }
+            {
+              duration: 7000,
+              panelClass: ['error-snackbar']
+            }
           );
         }
       });

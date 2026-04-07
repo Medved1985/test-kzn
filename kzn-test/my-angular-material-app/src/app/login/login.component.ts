@@ -37,8 +37,8 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       console.log('Форма валидна', this.loginForm.value);
 
-      this.authService.login(this.loginForm.value.login, this.loginForm.value.password).subscribe((res: any) => {
-        console.log('Ответ', res);
+      this.authService.login(this.loginForm.value.login, this.loginForm.value.password).subscribe((res: { auth_token: string }) => {
+        // console.log('Ответ', res);
         if (res) {
           localStorage.setItem('auth_token', res.auth_token);
           this.router.navigate(['/clients']);

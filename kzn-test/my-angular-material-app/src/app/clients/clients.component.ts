@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, effect } from '@angular/core';
+import { Component, OnInit, signal, computed, effect, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -36,7 +36,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatPaginatorModule,
     MatSortModule,
     MatIconModule],
+  encapsulation: ViewEncapsulation.None
 })
+
 export class ClientsComponent implements OnInit {
   clients = signal<Client[]>([]);
   totalCount = signal(0);
@@ -56,7 +58,6 @@ export class ClientsComponent implements OnInit {
   displayedColumns: string[] = [
     'select',
     'user_id',
-    'telegram',
     'o_s',
     'maket',
     'fio',
@@ -111,6 +112,7 @@ export class ClientsComponent implements OnInit {
 
       this.apiService.getClients(params).subscribe({
         next: (response) => {
+          console.log(response);
 
           //@ts-ignore
           this.clients.set(response.passes);
@@ -120,7 +122,10 @@ export class ClientsComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error loading clients:', error);
-          this.snackBar.open('Ошибка загрузки клиентов: ' + (error.error?.message || error.message), 'Закрыть', { duration: 3000 });
+          this.snackBar.open('Ошибка загрузки клиентов: ' + (error.error?.message || error.message), 'Закрыть', {
+            duration: 7000,
+            panelClass: ['error-snackbar']
+          });
           this.isLoading.set(false);
         }
       });
@@ -134,7 +139,10 @@ export class ClientsComponent implements OnInit {
           console.error('Error loading client by ID:', response);
           this.clients.set([]);
           this.totalCount.set(0);
-          this.snackBar.open('Клиент с таким ID не найден', 'Закрыть', { duration: 3000 });
+          this.snackBar.open('Клиент с таким ID не найден', 'Закрыть', {
+            duration: 7000,
+            panelClass: ['error-snackbar']
+          });
           this.isLoading.set(false);
           return
         }
@@ -152,9 +160,15 @@ export class ClientsComponent implements OnInit {
         if (error.status === 404) {
           this.clients.set([]);
           this.totalCount.set(0);
-          this.snackBar.open('Клиент с таким ID не найден', 'Закрыть', { duration: 3000 });
+          this.snackBar.open('Клиент с таким ID не найден', 'Закрыть', {
+            duration: 7000,
+            panelClass: ['error-snackbar']
+          });
         } else {
-          this.snackBar.open('Ошибка поиска: ' + (error.error?.message || error.message), 'Закрыть', { duration: 3000 });
+          this.snackBar.open('Ошибка поиска: ' + (error.error?.message || error.message), 'Закрыть', {
+            duration: 7000,
+            panelClass: ['error-snackbar']
+          });
         }
         this.isLoading.set(false);
       }
@@ -255,7 +269,10 @@ export class ClientsComponent implements OnInit {
     const userId = data.clientIds[0];
 
     if (!userId) {
-      this.snackBar.open('Не выбран пользователь для отправки', 'Закрыть', { duration: 3000 });
+      this.snackBar.open('Не выбран пользователь для отправки', 'Закрыть', {
+        duration: 7000,
+        panelClass: ['error-snackbar']
+      });
       this.pushService.setLoading(false);
       return;
     }
@@ -275,7 +292,10 @@ export class ClientsComponent implements OnInit {
             ? `PUSH-сообщение запланировано на ${data.scheduledDate.toLocaleString()}`
             : 'PUSH-сообщение отправлено успешно',
           'Закрыть',
-          { duration: 3000 }
+          {
+            duration: 7000,
+            panelClass: ['success-snackbar']
+          }
         );
         this.selectedClients.set(new Set());
         this.pushService.setLoading(false);
@@ -285,7 +305,10 @@ export class ClientsComponent implements OnInit {
         this.snackBar.open(
           error.error?.message || 'Ошибка отправки PUSH-сообщения',
           'Закрыть',
-          { duration: 3000 }
+          {
+            duration: 7000,
+            panelClass: ['error-snackbar']
+          }
         );
         this.pushService.setLoading(false);
       }

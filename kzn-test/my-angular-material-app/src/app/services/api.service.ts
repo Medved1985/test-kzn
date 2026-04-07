@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PushData } from '../push-modal/push-modal.component';
 
 export interface Client {
   user_id: number;
@@ -141,10 +142,10 @@ export class ApiService {
   }
 
   sendPush(data: {
-    user_id: string;
-    push_message: string;
+    user_id?: string;
+    push_message?: string;
     date_start?: string
-  }): Observable<any> {
+  }): Observable<object> {
     const token = localStorage.getItem('auth_token');
 
     if (!token) {
@@ -153,7 +154,7 @@ export class ApiService {
 
     const url = `${this.API_URL}/v1/${token}/message/push`;
 
-    const body: any = {
+    const body: PushData = {
       user_id: data.user_id,
       push_message: data.push_message
     };

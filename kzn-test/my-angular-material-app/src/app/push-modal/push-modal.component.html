@@ -2,39 +2,58 @@
 
 <div mat-dialog-content class="dialog-content">
   <form [formGroup]="pushForm" class="push-form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Текст сообщения</mat-label>
-      <textarea matInput formControlName="message" rows="4" placeholder="Введите текст PUSH-сообщения"
-        (input)="updatePreview()"></textarea>
-      <mat-error *ngIf="pushForm.get('message')?.hasError('required') && pushForm.get('message')?.touched">
-        Текст сообщения обязателен
-      </mat-error>
-    </mat-form-field>
+    <div class="preview-label">Текст сообщения</div>
+    <div class="preview-section">
+      <mat-form-field appearance="outline" class="full-width">
+        <textarea matInput formControlName="message" rows="4" placeholder="Введите текст PUSH-сообщения"
+          (input)="updatePreview()"></textarea>
+        <mat-icon matSuffix class="text-plus">
+          <img src="plus.svg" alt="plus" style="width: 20px; height: 20px;">
+        </mat-icon>
+        <mat-error *ngIf="pushForm.get('message')?.hasError('required') && pushForm.get('message')?.touched">
+          Текст сообщения обязателен
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     <div class="preview-section">
-      <div class="preview-label">Превью:</div>
+      <div class="preview-label">Превью</div>
       <div class="push-preview">
         <div class="preview-header">
           <div class="app-icon">
-            <mat-icon>notifications</mat-icon>
+            <img src="img.svg" alt="img">
           </div>
-          <div class="app-name">Имя отправителя</div>
-        </div>
-        <div class="preview-content">
-          <div class="preview-message">{{ previewMessage || 'Текст сообщения' }}</div>
+          <div class="app-info">
+            <div class="app-name">Имя отправителя</div>
+            <div class="preview-content">
+              <div class="preview-message">{{ previewMessage || 'Текст сообщения' }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <mat-form-field appearance="outline" class="full-width date-field">
-      <mat-label>Дата отправки рассылки</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="scheduledDate" [min]="minDate">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="pushForm.get('scheduledDate')?.hasError('required') && pushForm.get('scheduledDate')?.touched">
-        Выберите дату отправки
-      </mat-error>
-    </mat-form-field>
+    <div class="preview-label">Дата отправки рассылки</div>
+    <div class="preview-section">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-select formControlName="scheduledDate">
+          <mat-option [value]="getTodayDate()">
+            Сейчас
+          </mat-option>
+          <mat-option [value]="getDateInHours(1)">
+            Через час
+          </mat-option>
+          <mat-option [value]="getDateInHours(3)">
+            Через 3 часа
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="pushForm.get('scheduledDate')?.hasError('required') && pushForm.get('scheduledDate')?.touched">
+          Выберите дату отправки
+        </mat-error>
+      </mat-form-field>
+    </div>
+
   </form>
 </div>
 

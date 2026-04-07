@@ -2,7 +2,7 @@
   <div class="avatar">
 
     <div class="avatar-div-2">
-      <mat-icon class="tg">circle</mat-icon>
+      <img src="avatar.svg" alt="avatar">
       <div class="avatar-name">
         <span class="name">Имя</span>
         <span class="admin">Администратор</span>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="avatar-div-1">
-      <mat-icon class="tg">book</mat-icon>
+      <img src="base.svg" alt="base">
       <span>База знаний</span>
     </div>
 
@@ -44,7 +44,9 @@
     <button mat-raised-button color="primary" class="push" [disabled]="!hasSelected() || pushService.isLoading()"
       (click)="openPushModal()">
       Отправить Push
-      <mat-icon class="tg">telegram</mat-icon>
+      <mat-icon class="push-icon">
+        <img src="push.svg" alt="push">
+      </mat-icon>
     </button>
 
   </div>
@@ -72,22 +74,12 @@
         <td mat-cell *matCellDef="let client">{{ client.user_id }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="telegram">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let client">
-          <mat-icon [class.connected]="client.telegram" [class.disconnected]="!client.telegram">
-            {{ client.telegram ? 'check_circle' : 'cancel' }}
-          </mat-icon>
-        </td>
-      </ng-container>
-
       <ng-container matColumnDef="o_s">
         <th mat-header-cell *matHeaderCellDef>Устройство</th>
         <td mat-cell *matCellDef="let client">
           <div class="os-info">
-            <mat-icon *ngIf="client.o_s === 'IOS'" class="os-icon ios">apple</mat-icon>
-            <mat-icon *ngIf="client.o_s === 'Android'" class="os-icon android">android</mat-icon>
-            <span *ngIf="!client.o_s || client.o_s === 'Не установлено'">—</span>
+            <img src="tg.svg" alt="tg">
+            <img src="apple.svg" alt="apple">
           </div>
         </td>
       </ng-container>
@@ -163,8 +155,8 @@
       <ng-container matColumnDef="link">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Ссылка на карту</th>
         <td mat-cell *matCellDef="let client">
-          <mat-icon *ngIf="client.link" [matTooltip]="client.link" matTooltipPosition="above"
-            (click)="showLink(client.link)" class="pointer">download</mat-icon>
+          <img *ngIf="client.link" src="export.svg" [matTooltip]="client.link" matTooltipPosition="above"
+            (click)="showLink(client.link)" class="pointer" alt="export">
         </td>
       </ng-container>
 

@@ -19,14 +19,14 @@ export class AuthService {
     this.isAuthenticatedSignal.set(!!token);
   }
 
-  login(login: string, password: string): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>('https://api.teyca.ru/test-auth-only', {
+  login(login: string, password: string): Observable<{ auth_token: string }> {
+    return this.http.post<{ auth_token: string }>('https://api.teyca.ru/test-auth-only', {
       login,
       password
     }).pipe(
       tap(response => {
-        if (response.token) {
-          localStorage.setItem(this.TOKEN_KEY, response.token);
+        if (response.auth_token) {
+          localStorage.setItem(this.TOKEN_KEY, response.auth_token);
           this.isAuthenticatedSignal.set(true);
         }
       })
